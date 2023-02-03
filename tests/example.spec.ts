@@ -14,7 +14,7 @@ test('book a ticket',async({browser}:{browser:Browser}):Promise<void>=>{
   await page.locator('#btnPopupAccept').click()
   await page.locator('#pop_1').click()
   await page.getByText('Select Seats').click()
-  await page.locator('#A_1_08').getByText('8').click()
+  await page.locator('#A_8_11').getByText('9').click()
   await page.getByRole('link',{name:'Pay Rs.150.00'}).click()
 
 })
