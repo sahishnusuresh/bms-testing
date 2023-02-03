@@ -39,7 +39,7 @@ await page.getByRole('link').filter({hasText:'04:30 PM'}).click()
   await page.locator('#pop_1').click()
   await page.getByText('Select Seats').click()
   const seatsleft=await page.locator('._available').count()
-  const selectfrom=seatsleft/2
+  const all_left_seats=await page.locator('._available').filter({has:parent})
   await page.locator('#A_8_11').getByText('9').click()
   await page.getByRole('link',{name:'Pay Rs.150.00'}).click()
 
