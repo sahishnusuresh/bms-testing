@@ -36,11 +36,36 @@ await page.getByRole('link').filter({hasText:'04:30 PM'}).click()
   
   //  await page.getByRole('link',{name:'1:30 PM'}).click() 
   await page.locator('#btnPopupAccept').click()
-  await page.locator('#pop_1').click()
+  await page.locator('#pop_2').click()
   await page.getByText('Select Seats').click()
-  const seatsleft=await page.locator('._available').count()
-  const all_left_seats=await page.locator('._available').filter({has:parent})
-  await page.locator('#A_8_11').getByText('9').click()
-  await page.getByRole('link',{name:'Pay Rs.150.00'}).click()
+  await page.$$eval('._available', (seats)=>{
+    console.log('hi')
+    let count=0;
+    seats.forEach((seat)=>{
+      while(count<=2){
+      if(seat.parentElement?.hasAttribute('id=A_1_01')){
+         page.locator('#A_8_11').getByText('9').click()
+        count+=1;
+      }
+    }
+      // await page.click(seat)
+    })})
+  var str="#[A-Z]_1_[10-20]"
+
+const seats= page.locator('#A_1_01 > a._available')
+const no_of_seats=await seats.count() // to get number of available seats
+let no_selected=1 // to prevent selection more than once
+for(let i=0;i<=no_of_seats;i++){
+  const seat=seats.nth(i);
+  if(no_selected==1){
+    expect(seat).toBeDefined()
+    await seat.click()
+    break;
+  }
+    // await page.pause()
+}
+
+
+  await page.getByRole('link',{name:'Pay Rs.300.00'}).click()
 
 })
