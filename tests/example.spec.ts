@@ -1,34 +1,25 @@
 import { test, expect, Page, Browser, BrowserContext } from '@playwright/test';
+import commandLineArgs from "command-line-args"
+// const arguments =process.argv
+const optionDefinitions = [
+  
+  { name: 'city', type: String},
+  { name: 'movie', type: String }
+]
+
+const options = commandLineArgs(optionDefinitions)
 
 test('book a ticket',async({browser}:{browser:Browser}):Promise<void>=>{
   const context=await browser.newContext()
   const page=await context.newPage()
   await context.grantPermissions(['geolocation'])
   await page.goto('https://in.bookmyshow.com/');
-  await page.getByRole('img', { name: 'BANG', exact: true }).click();
-  await page.getByRole('img', { name: 'Pathaan' }).click();
+  await page.getByRole('img', { name: options[0]['city'], exact: true }).click();
+  await page.getByRole('img', { name: options[0]['movie'] }).click();
   await page.getByRole('button', { name: 'Book tickets' }).click();
   await page.getByText('2D',{exact: true}).nth(2).click()
-  // const times=await page.$$eval('a',(elements:HTMLInputElement)=>{
-  //   return elements.filter(element=>{})
-  // }
-    
-//   
-var arr :Array<HTMLLinkElement>|Array<HTMLAnchorElement>= [], l = window.document.links;
-for(var i=0; i<l.length; i++) {
-  if(l[i].innerHTML=='04:30 PM'){
-    arr.push(l[i].href)
-  }
-}
-await page.click(arr[0])
-await page.$$eval('a.showtime-pill',links=>
-      links.forEach(async(link)=>{
-        if(link instanceof HTMLLinkElement && link.className=='__text' && link.textContent=='04:30 PM'){
-          await link.click()
-        }
-      }
+  
 
-      ))
 await page.getByRole('link').filter({hasText:'04:30 PM'}).click()
 
 
