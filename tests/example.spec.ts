@@ -29,7 +29,7 @@ test('book a ticket',async({browser}:{browser:Browser}):Promise<void>=>{
 //       }
 
 //       ))
-await page.getByRole('link').filter({hasText:'04:30 PM'}).click()
+await page.getByRole('link').filter({hasText:'09:45 PM'}).click()
 
 
 
@@ -37,9 +37,17 @@ await page.getByRole('link').filter({hasText:'04:30 PM'}).click()
   //  await page.getByRole('link',{name:'1:30 PM'}).click() 
   await page.locator('#btnPopupAccept').click()
   await page.locator('#pop_1').click()
-  await page.getByText('Select Seats').click()
-  const seatsleft=await page.locator('._available').count()
-  const all_left_seats=await page.locator('._available').filter({has:parent})
+  await page.getByText('Select Seats').click()  
+  await page.locator('id=B_1_041').click()  
+  const pages=await page.$$eval('._available',(seats)=>{
+    seats.forEach(async (seat)=>{
+      await page.locator(seat).click()
+    })
+
+
+  })
+  
+  
   await page.locator('#A_8_11').getByText('9').click()
   await page.getByRole('link',{name:'Pay Rs.150.00'}).click()
 
